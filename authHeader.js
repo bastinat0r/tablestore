@@ -13,7 +13,7 @@ function signatureString(opts) {
 	//util.puts("………………………………………………");
 	var normalizedRequestString = "" 
 			+ opts.method + '\n'
-			+ '\n'
+			+ '\n' 
 			+ opts.headers["content-type"]+ '\n'
 			+ opts.headers["date"] + '\n'
 			+ "/" + config.name +  opts.path;

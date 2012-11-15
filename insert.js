@@ -35,6 +35,8 @@ function putEntity(entity) {
 	opts.host = opts.host + ":80";
 	opts.headers = {
 		"date" : date,
+		"content-length" : xml.length,
+		"content-type" : "application/atom+xml; charset=utf-8",
 		"DataServiceVersion" : "1.0;NetFx",
 		"MaxDataServiceVersion" : "1.0;NetFx"
 	};
