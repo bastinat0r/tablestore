@@ -3,10 +3,10 @@ var currentKey = 0;
 var Employee = function(PartitionKey, RowKey, timeStamp, name, address, salary, position) {
 	if(!PartitionKey || !RowKey) {
 		this.RowKey = currentKey;
-		this.PartitionKey = ["USA","UK","Germany"][Math.floor(currentKey/1500)] + "_PLZ" + 10000 + Math.floor(Math.random() * 90000);
+		this.PartitionKey = ["USA","UK","Germany"][Math.floor(currentKey/1500)] + "_PLZ" + (10000 + Math.floor(Math.random() * 90000));
 		this.timeStamp = new Date();
-		this.name = crypto.createHash('SHA256').update(""+this.timeStamp).digest('hex');
-		this.adress = crypto.createHash('SHA256').update(""+this.timeStamp).digest('hex');
+		this.name = crypto.createHash('SHA256').update(""+this.timeStamp).digest('base64');
+		this.adress = crypto.createHash('SHA256').update("foobar"+this.timeStamp).digest('base64');
 		this.salary = Math.random() * 80000 + 20000;
 		this.position = ['Developer','Tester','Manager'][Math.floor(Math.random() * 3)];
 

@@ -13,11 +13,13 @@ function signatureString(opts) {
 	//util.puts("………………………………………………");
 	var normalizedRequestString = "" 
 			+ opts.method + '\n'
-			+ '\n' 
-			+ opts.headers["content-type"]+ '\n'
+			+ '\n';
+	if(opts.headers["content-type"])
+	 normalizedRequestString = normalizedRequestString + opts.headers["content-type"]
+	normalizedRequestString = normalizedRequestString + '\n'
 			+ opts.headers["date"] + '\n'
 			+ "/" + config.name +  opts.path;
-	util.puts(normalizedRequestString);
+	//util.puts(normalizedRequestString);
 	//util.puts("…………………………………………………");
 	return normalizedRequestString;
 }
