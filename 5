@@ -1,0 +1,19 @@
+var util = require('util');
+var queryMonster = require('./query.js');
+
+queryMonster.emitter.on('data', function(data) {
+	var split = data.split(/\<\/entry>[\s\r\n]*\<entry[^>]*>/);
+	for(i in split) {
+		if(false) {
+			util.puts(split[i]);
+			util.puts("…………………………………………………………………………………………………………………");
+		}
+		var pk = "" + /\<d\:PartitionKey\>.*/i.exec(split[i]);
+		util.puts("pk: " + pk.replace(/\<[^\>]*\>/gi, ''));
+		var rk = "" + split[i].exec(/\<d\:RowKey\>.*/i);
+		util.puts("rk: " + pk.replace(/\<[^\>]*\>/gi, ''));
+	}
+});
+queryString = "()?$filter="+encodeURIComponent("(PartitionKey gt 'USA_PLZ00000')and(PartitionKey le 'USA_PLZ99999')");
+queryMonster.query(queryString);
+

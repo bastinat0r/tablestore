@@ -44,13 +44,14 @@ function query(querystring) {
 		"date" : date,
 		"content-length" : 0,
 		"content-type" : "application/atom+xml; charset=utf-8",
-		"DataServiceVersion" : "1.0;NetFx",
-		"MaxDataServiceVersion" : "1.0;NetFx"
+		"DataServiceVersion" : "2.0;NetFx",
+		"MaxDataServiceVersion" : "2.0;NetFx"
 	};
 	opts.path = opts.path + /^[^\?]*/.exec(querystring);
-	querystring = "" + querystring.replace(/^[^\?]*/, '');
+	var filter = "" + querystring.replace(/^[^\?]*/, '');
 	opts.headers['authorization'] = authHeader.getAuthHeader(opts);
-	opts.path = opts.path + querystring;
+	opts.path = opts.path + filter;
+	util.puts(opts.path);
 	//util.puts(JSON.stringify(opts));
 	var req = http.request(opts, function(res) {
 		if(res.statusCode >= 300) {
@@ -66,11 +67,12 @@ function query(querystring) {
 				emitter.emit('data', data);
 				//util.puts(JSON.stringify(res.headers));
 				if(res.headers["x-ms-continuation-nextpartitionkey"]) {
+					util.puts(res.headers);
 					var next = "?NextPartitionKey=" +
 					res.headers["x-ms-continuation-nextpartitionkey"] +
 					"&NextRowKey=" + 
 					res.headers["x-ms-continuation-nextrowkey"];
-					query(next);
+					query(next + filter);
 				} else {
 					emitter.emit('end');
 				}
